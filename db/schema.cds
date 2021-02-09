@@ -19,7 +19,5 @@ entity Messages : managed {
         shortText           : localized String(100);
         longText            : localized String(1000);
         statusCode          : Integer64;
-        virtual isEditable  : Boolean;
-        virtual isDeletable : Boolean;
 };
 

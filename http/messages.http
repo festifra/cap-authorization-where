@@ -1,22 +1,19 @@
 @service-url = http://localhost:4004
-@authorizationWhere = {{service-url}}/authorizationWhere
+@authorizationWhere = {{service-url}}/authorization-where
 
 
 #### ------------------------------------------------------------------------
 # READ ALL Messages (check authorization)
-# Ristposta attesa 
-# HTTP/1.1 200 OK
-# Authorization : testusers Wispin2021!
+# Expected response HTTP/1.1 200 OK
 ### -----------------------------------------------------------------------
 GET {{authorizationWhere}}/Messages
 Authorization: Basic Basic user:user
-Accept: application/json;
+Accept: application/json
 
 #### ------------------------------------------------------------------------
 # CREATE Messages type LABEL and ID = LAB.test3
-# Ristposta attesa 
-# HTTP/1.1 200 OK
-# Authorization : testall Wispin2021!
+# Expected response HTTP/1.1 200 OK 
+# Received response HTTP/1.1 403 Forbidden
 ### -----------------------------------------------------------------------
 POST {{authorizationWhere}}/Messages
 Authorization: Basic admin:admin
@@ -32,19 +29,74 @@ Content-Type: application/json
 
 #### ------------------------------------------------------------------------
 # READ Messages type LABEL and ID = LAB.test2  
-# Ristposta attesa 
-# HTTP/1.1 200 OK
-# Authorization : testall Wispin2021!
+# Expected response HTTP/1.1 200 OK 
+# Received response HTTP/1.1 200 OK 
 ### -----------------------------------------------------------------------
 GET {{authorizationWhere}}/Messages(ID='LAB.test2',typeMessage='label')
 Authorization: Basic user:user
-Accept: application/json;
+Accept: application/json
+
+#### ------------------------------------------------------------------------
+# UPDATE Messages type LABEL and ID = LAB.test2  
+# Expected response HTTP/1.1 403 Forbidden
+# Received response HTTP/1.1 403 Forbidden
+### -----------------------------------------------------------------------
+PATCH {{authorizationWhere}}/Messages(ID='LAB.test2',typeMessage='label')
+Authorization: Basic user:user
+Content-Type: application/json
+
+{
+  "shortText": "test alice AAAAAAA"
+}
+
+#### ------------------------------------------------------------------------
+# UPDATE Messages type LABEL and ID = LAB.test2  
+# Expected response HTTP/1.1 200 OK 
+# Received response HTTP/1.1 200 OK
+### -----------------------------------------------------------------------
+PATCH {{authorizationWhere}}/Messages(ID='LAB.test2',typeMessage='label') 
+Authorization: Basic admin:admin
+Content-Type: application/json
+
+{
+  "shortText": "test alice AAAAAAA"
+}
 
 #### ------------------------------------------------------------------------
 # READ Messages type SYSTEMMESSAGE and ID = API.BasicAuthData 
-# Ristposta attesa 
-# HTTP/1.1 200 OK
-# Authorization : testall Wispin2021!
+# Expected response HTTP/1.1 200 OK 
+# Received response HTTP/1.1 200 OK
 ### -----------------------------------------------------------------------
 GET {{authorizationWhere}}/Messages(ID='API.BasicAuthData',typeMessage='systemMessage')
 Authorization: Basic user:user
+Accept: application/json
+
+#### ------------------------------------------------------------------------
+# UPDATE Messages type SYSTEMMESSAGE and ID = API.BasicAuthData 
+# Expected response HTTP/1.1 200 OK 
+# Received response HTTP/1.1 404 Not Found
+### -----------------------------------------------------------------------
+PATCH {{authorizationWhere}}/Messages(ID='API.BasicAuthData',typeMessage='systemMessage')
+Authorization: Basic admin:admin
+Content-Type: application/json
+
+{
+  "shortText": "Empty user name and/or password AAAAAAA"
+}
+
+#### ------------------------------------------------------------------------
+# CREATE Messages type SYSTEMLABEL and ID = API.test2
+# Expected response HTTP/1.1 403 Forbidden
+# Received response HTTP/1.1 403 Forbidden
+### -----------------------------------------------------------------------
+POST {{authorizationWhere}}/Messages
+Authorization: Basic admin:admin
+Content-Type: application/json
+
+{
+    "ID": "API.test2",
+    "typeMessage": "systemLabel",
+    "shortText": "create test AAAAAAA",
+    "longText": null,
+    "statusCode": null
+}
