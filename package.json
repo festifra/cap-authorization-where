@@ -1,0 +1,48 @@
+{
+  "name": "cap-authorization-where",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^4",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "sqlite3": "5.0.0"
+  },
+  "scripts": {
+    "start": "cds run",
+    "deploy": "cds deploy --to sqlite:authorizationWhere.db"
+  },
+  "cds": {
+    "hana": {
+      "deploy-format": "hdbtable",
+      "syntax": "hdi"
+    },
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "model": "*",
+        "credentials": {
+          "database": "authorizationWhere.db"
+        }
+      },
+      "auth": {
+        "strategy": "mock",
+        "users": {
+          "admin": {
+            "password": "admin",
+            "roles": [
+              "MessageEditor"
+            ]
+          },
+          "user": {
+            "password": "user"
+          }
+        }
+      }
+    }
+  }
+}

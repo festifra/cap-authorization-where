@@ -1,0 +1,50 @@
+@service-url = http://localhost:4004
+@authorizationWhere = {{service-url}}/authorizationWhere
+
+
+#### ------------------------------------------------------------------------
+# READ ALL Messages (check authorization)
+# Ristposta attesa 
+# HTTP/1.1 200 OK
+# Authorization : testusers Wispin2021!
+### -----------------------------------------------------------------------
+GET {{authorizationWhere}}/Messages
+Authorization: Basic Basic user:user
+Accept: application/json;
+
+#### ------------------------------------------------------------------------
+# CREATE Messages type LABEL and ID = LAB.test3
+# Ristposta attesa 
+# HTTP/1.1 200 OK
+# Authorization : testall Wispin2021!
+### -----------------------------------------------------------------------
+POST {{authorizationWhere}}/Messages
+Authorization: Basic admin:admin
+Content-Type: application/json
+
+{
+    "ID": "LAB.test3",
+    "typeMessage": "label",
+    "shortText": "create test AAAAAAA",
+    "longText": null,
+    "statusCode": null
+}
+
+#### ------------------------------------------------------------------------
+# READ Messages type LABEL and ID = LAB.test2  
+# Ristposta attesa 
+# HTTP/1.1 200 OK
+# Authorization : testall Wispin2021!
+### -----------------------------------------------------------------------
+GET {{authorizationWhere}}/Messages(ID='LAB.test2',typeMessage='label')
+Authorization: Basic user:user
+Accept: application/json;
+
+#### ------------------------------------------------------------------------
+# READ Messages type SYSTEMMESSAGE and ID = API.BasicAuthData 
+# Ristposta attesa 
+# HTTP/1.1 200 OK
+# Authorization : testall Wispin2021!
+### -----------------------------------------------------------------------
+GET {{authorizationWhere}}/Messages(ID='API.BasicAuthData',typeMessage='systemMessage')
+Authorization: Basic user:user
