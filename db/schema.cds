@@ -1,23 +1,17 @@
-namespace authorization.where;
-
-type MessageType : String(30) enum {
-    systemMessage;
-    systemLabel;
-    message;
-    label;
-    valueList
-};
+namespace assert.check;
 
 using {
-    managed,
-    sap.common.Languages
+    cuid,
+    managed
 } from '@sap/cds/common';
 
-entity Messages : managed {
-    key ID                  : String(50) not null;
-    key typeMessage         : MessageType @assert.range;
-        shortText           : localized String(100);
-        longText            : localized String(1000);
-        statusCode          : Integer64;
+type MetaStatus : String(10) enum {
+    draft;
+    released;
+};
+entity Packages : cuid, managed {
+    key status       : MetaStatus not null @assert.range;
+        name         : String(50) not null @assert.format: '^[a-zA-Z0-9.]+$';
+        description  : String(100);
 };
 

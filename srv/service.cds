@@ -1,11 +1,15 @@
+using {assert.check as assertDemo} from '../db/schema';
 
-using { authorization.where as authDemo } from '../db/schema';
 
-
-service authorizationWhere {
-
-  @cds.localized:false
-  @Capabilities: { Insertable:true, Updatable:true, Deletable:true }
-  entity Messages as projection on authDemo.Messages;	
+service AssertCheckService {
+  @Capabilities  : {
+    Insertable : true,
+    Updatable  : true,
+    Deletable  : true
+  }
+  entity Packages as select from assertDemo.Packages actions {
+    action actionAssertCheckCreate() returns String;
+    action actionAssertCheckUpdate() returns String;    
+  };
 
 }

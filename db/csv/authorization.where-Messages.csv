@@ -1,4 +1,0 @@
-ID;typeMessage;shortText;statusCode;longText;createdAt;createdBy;modifiedAt;modifiedBy;
-LAB.test2;label;test Alice;;;2021-01-26 11:00:00.000000000;admin;;;
-API.BasicAuthData;systemMessage;Empty user name and/or password;404;Authorization type 'basic': insert user name and password;2021-01-26 11:00:00.000000000;admin;;;
-API.UserNamePlaceHolder;systemLabel;Username;;;2021-01-26 11:00:00.000000000;admin;;;

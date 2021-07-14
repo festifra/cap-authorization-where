@@ -1,5 +1,5 @@
 {
-  "name": "cap-authorization-where",
+  "name": "cap-assert-check",
   "version": "1.0.0",
   "description": "A simple CAP project.",
   "repository": "<Add your repository here>",
@@ -7,14 +7,15 @@
   "private": true,
   "dependencies": {
     "@sap/cds": "^4",
-    "express": "^4"
+    "express": "^4",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "sqlite3": "5.0.0"
   },
   "scripts": {
     "start": "cds run",
-    "deploy": "cds deploy --to sqlite:authorizationWhere.db"
+    "deploy": "cds deploy --to sqlite:assertCheck.db"
   },
   "cds": {
     "hana": {
@@ -26,21 +27,7 @@
         "kind": "sqlite",
         "model": "*",
         "credentials": {
-          "database": "authorizationWhere.db"
-        }
-      },
-      "auth": {
-        "strategy": "mock",
-        "users": {
-          "admin": {
-            "password": "admin",
-            "roles": [
-              "MessageEditor"
-            ]
-          },
-          "user": {
-            "password": "user"
-          }
+          "database": "assertCheck.db"
         }
       }
     }
